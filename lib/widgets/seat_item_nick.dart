@@ -1,37 +1,45 @@
 import 'package:flutter/material.dart';
 
-class SeatItemNick extends StatelessWidget {
-  final String seatIdNick;
-  final bool isSoldNick;
-  final bool isSelectedNick;
-  final Function() onTapNick;
+class SeatItem_nick extends StatelessWidget {
+  final String seatCode;
+  final bool isSelected;
+  final bool isSold;
+  final VoidCallback onTap;
 
-  const SeatItemNick({super.key, required this.seatIdNick, required this.isSoldNick, required this.isSelectedNick, required this.onTapNick});
+  SeatItem_nick({
+    required this.seatCode,
+    required this.isSelected,
+    required this.isSold,
+    required this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {
-    Color seatColorNick;
-
-    if (isSoldNick) {
-      // Jika terjual maka logo kursi berwarna merah
-      seatColorNick = Colors.red;
-    } else if (isSelectedNick) {
-      //Jika dipilih maka logo kursi berwarna biru.
-      seatColorNick = Colors.blue;
-    } else {
-      //Jika kursi kosong maka logo kursi berwarna abu-abu.
-      seatColorNick = Colors.grey;
+    Color seatColor = Colors.grey;
+    if (isSold) {
+      seatColor = Colors.red;
+    } else if (isSelected) {
+      seatColor = Colors.blue;
     }
 
     return GestureDetector(
-      onTap: isSoldNick ? null : onTapNick, // Nonaktifkan tap jika kursi terjual.
+      onTap: isSold ? null : onTap,
       child: Container(
-        margin: const EdgeInsets.all(4),
-        width: 35,
-        height: 35,
-        alignment: Alignment.center,
-        decoration: BoxDecoration(color: seatColorNick, borderRadius: BorderRadius.circular(4)),
-        child: Text(seatIdNick, style: const TextStyle(fontSize: 12, color: Colors.white)),
+        decoration: BoxDecoration(
+          color: seatColor,
+          borderRadius: BorderRadius.circular(8),
+          border: Border.all(color: Colors.black12, width: 1),
+        ),
+        child: Center(
+          child: Text(
+            seatCode,
+            style: TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+              fontSize: 12,
+            ),
+          ),
+        ),
       ),
     );
   }

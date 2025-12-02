@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import '../models/movie_model_all.dart';
 import '../services/firebase_service.dart';
 import '../widgets/movie_card.dart';
 import 'movie_detail_screen.dart';
+// Hapus: import 'seat_selection_screen.dart'; // Tidak langsung digunakan di home
 
 class HomeScreen extends StatelessWidget {
   @override
@@ -24,13 +24,17 @@ class HomeScreen extends StatelessWidget {
       body: StreamBuilder<QuerySnapshot>(
         stream: FirebaseService.getMovies(),
         builder: (context, snapshot) {
-          if (snapshot.hasError) return Center(child: Text('Error'));
+          if (snapshot.hasError) {
+            return Center(child: Text('Error loading movies'));
+          }
+
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(child: CircularProgressIndicator());
           }
 
           final movies = snapshot.data!.docs.map((doc) {
-            return MovieModel_all.fromMap(doc.data() as Map<String, dynamic>);
+            final data = doc.data() as Map<String, dynamic>;
+            return MovieModel_all.fromMap(data);
           }).toList();
 
           return GridView.builder(
@@ -48,7 +52,8 @@ class HomeScreen extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => MovieDetailScreen(movie: movies[index]),
+                      builder: (context) =>
+                          MovieDetailScreen(movie: movies[index]),
                     ),
                   );
                 },

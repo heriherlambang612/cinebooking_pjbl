@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+// Hapus: import 'package:firebase_auth/firebase_auth.dart';
 import '../services/firebase_service.dart';
 import 'booking_history_screen.dart';
 
@@ -23,18 +23,26 @@ class ProfileScreen extends StatelessWidget {
                   children: [
                     Text(
                       'User Information',
-                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                     SizedBox(height: 10),
                     ListTile(
                       leading: Icon(Icons.person),
                       title: Text('Username'),
-                      subtitle: Text(user?.email?.split('@').first ?? 'N/A'),
+                      subtitle: Text(user?.email?.split('@').first ?? 'Guest'),
                     ),
                     ListTile(
                       leading: Icon(Icons.email),
                       title: Text('Email'),
-                      subtitle: Text(user?.email ?? 'N/A'),
+                      subtitle: Text(user?.email ?? 'No email'),
+                    ),
+                    ListTile(
+                      leading: Icon(Icons.account_balance_wallet),
+                      title: Text('Balance'),
+                      subtitle: Text('Rp 0'), // Default balance
                     ),
                   ],
                 ),
