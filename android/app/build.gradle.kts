@@ -1,8 +1,9 @@
 plugins {
     id("com.android.application")
-    id("kotlin-android")
+    id("org.jetbrains.kotlin.android")
     // The Flutter Gradle Plugin must be applied after the Android and Kotlin Gradle plugins.
     id("dev.flutter.flutter-gradle-plugin")
+    id("com.google.gms.google-services")   // <-- WAJIB DI SINI, BUKAN apply plugin
 }
 
 android {
@@ -21,10 +22,7 @@ android {
 
     defaultConfig {
         applicationId = "com.example.cinebooking"
-
-        // Firebase butuh minimal 21
-        minSdk = 21
-
+        minSdk = flutter.minSdkVersion
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
         versionName = flutter.versionName
@@ -40,5 +38,3 @@ android {
 flutter {
     source = "../.."
 }
-
-apply plugin: 'com.google.gms.google-services'
