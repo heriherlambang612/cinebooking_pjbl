@@ -18,7 +18,6 @@ class SeatSelectionScreen extends StatelessWidget {
         builder: (context, provider, child) {
           return Column(
             children: [
-              // Screen
               Container(
                 margin: EdgeInsets.all(20),
                 padding: EdgeInsets.all(10),
@@ -29,7 +28,6 @@ class SeatSelectionScreen extends StatelessWidget {
                 child: Text('SCREEN', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
               ),
 
-              // Seat Legend
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 20),
                 child: Row(
@@ -50,7 +48,6 @@ class SeatSelectionScreen extends StatelessWidget {
                     int col = index % 8;
                     String seatCode = '${String.fromCharCode(65 + row)}${col + 1}';
 
-                    // Mock sold seats (A1, A2, B5 for example)
                     bool isSold = ['A1', 'A2', 'B5'].contains(seatCode);
 
                     return SeatItem_nick(
@@ -67,7 +64,6 @@ class SeatSelectionScreen extends StatelessWidget {
                 ),
               ),
 
-              // Total Price
               Container(
                 padding: EdgeInsets.all(16),
                 decoration: BoxDecoration(
