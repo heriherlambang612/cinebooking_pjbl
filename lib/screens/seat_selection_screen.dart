@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import '../models/movie_model_all.dart';
 import '../providers/booking_provider.dart';
 import '../widgets/seat_item_nick.dart';
