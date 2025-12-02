@@ -38,6 +38,7 @@ class SeatSelectionScreen extends StatelessWidget {
 
               SizedBox(height: 20),
 
+              // Grid Kursi
               Expanded(
                 child: GridView.builder(
                   padding: EdgeInsets.all(20),
@@ -48,7 +49,7 @@ class SeatSelectionScreen extends StatelessWidget {
                     int col = index % 8;
                     String seatCode = '${String.fromCharCode(65 + row)}${col + 1}';
 
-                    bool isSold = ['A1', 'A2', 'B5'].contains(seatCode);
+                    bool isSold = ['A1', 'A2', 'B5'].contains(seatCode); // Contoh kursi yang sudah terjual
 
                     return SeatItem_nick(
                       seatCode: seatCode,
