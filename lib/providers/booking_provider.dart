@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import '../models/movie_model_all.dart';
 import '../services/firebase_service.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 
 class BookingProvider with ChangeNotifier {
   List<String> selectedSeats = [];
@@ -21,26 +20,31 @@ class BookingProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  // TRAP 1: Long Title Tax
   int _calculateTax(int basePrice, String title) {
     if (title.length > 10) {
-      return 2500;
+      return 2500; // Additional tax
     }
     return 0;
   }
 
+  // TRAP 2: Odd/Even Discount
   int _calculateSeatDiscount(int basePrice, String seatCode) {
+    // Extract number from seat code (e.g., "A2" -> 2)
     String numberStr = seatCode.replaceAll(RegExp(r'[^0-9]'), '');
     if (numberStr.isEmpty) return 0;
 
     int seatNumber = int.parse(numberStr);
 
+    // Even seat number = 10% discount
     if (seatNumber % 2 == 0) {
-      return (basePrice * 0.1).round();
+      return (basePrice * 0.1).round(); // 10% discount
     }
 
-    return 0;
+    return 0; // Odd seat = normal price
   }
 
+  // Main calculation function
   int calculateTotal(int basePrice, String title) {
     if (selectedSeats.isEmpty) return 0;
 
@@ -53,10 +57,11 @@ class BookingProvider with ChangeNotifier {
       total += seatPrice;
     }
 
-    total += (tax * selectedSeats.length);
+    total += (tax * selectedSeats.length); // Add tax per seat
     return total;
   }
 
+  // Checkout function
   Future<void> checkout(MovieModel_all movie) async {
     if (selectedSeats.isEmpty) return;
 
@@ -65,9 +70,14 @@ class BookingProvider with ChangeNotifier {
 
     int totalPrice = calculateTotal(movie.base_price, movie.title);
 
-    Map<String, dynamic> bookingData = {'user_id': user.uid, 'movie_title': movie.title, 'seats': selectedSeats, 'total_price': totalPrice, 'booking_date': DateTime.now()};
+    Map<String, dynamic> bookingData = {'user_id': user.uid, 'movie_title': movie.title, 'seats': selectedSeats, 'total_price': totalPrice, 'booking_date': Timestamp.now()};
 
-    await FirebaseService.addBooking(bookingData);
-    clearSeats();
+    try {
+      await FirebaseService.addBooking(bookingData);
+      clearSeats();
+      print('Checkout successful!');
+    } catch (e) {
+      print("Checkout error: $e");
+    }
   }
 }

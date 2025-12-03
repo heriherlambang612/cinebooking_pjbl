@@ -1,112 +1,151 @@
 import 'package:flutter/material.dart';
-import '../widgets/seat_item_nick.dart';
-import '../models/movie_model_all.dart';
 import 'package:provider/provider.dart';
+import '../models/movie_model_all.dart';
 import '../providers/booking_provider.dart';
+import '../widgets/seat_item_nick.dart';
 
-class SeatMatrixNick extends StatefulWidget {
-  final List<String> soldSeats;
-  final String movieTitle;
+class SeatSelectionScreen extends StatefulWidget {
+  final MovieModel_all movie;
 
-  const SeatMatrixNick({super.key, required this.soldSeats, required this.movieTitle});
+  SeatSelectionScreen({required this.movie});
 
   @override
-  State<SeatMatrixNick> createState() => _SeatMatrixNickState();
+  _SeatSelectionScreenState createState() => _SeatSelectionScreenState();
 }
 
-class _SeatMatrixNickState extends State<SeatMatrixNick> {
-  List<String> selectedSeats = [];
-
+class _SeatSelectionScreenState extends State<SeatSelectionScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Pilih Kursi - ${widget.movieTitle}')),
-      body: Column(
-        children: [
-          // Screen indicator
-          Container(
-            margin: EdgeInsets.only(top: 20, bottom: 30),
-            child: Text(
-              'LAYAR',
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.blue),
-            ),
-          ),
+      appBar: AppBar(title: Text('Select Seats')),
+      body: Consumer<BookingProvider>(
+        builder: (context, provider, child) {
+          return Column(
+            children: [
+              // Screen
+              Container(
+                margin: EdgeInsets.all(20),
+                padding: EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                  border: Border.all(color: Colors.grey),
+                  borderRadius: BorderRadius.circular(5),
+                ),
+                child: Text(
+                  'SCREEN',
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                ),
+              ),
 
-          // Seat grid
-          Expanded(
-            child: GridView.builder(
-              padding: EdgeInsets.all(16),
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 8, mainAxisSpacing: 4, crossAxisSpacing: 4),
-              itemCount: 48,
-              itemBuilder: (context, index) {
-                int row = index ~/ 8;
-                int col = index % 8;
-                String seatId = '${String.fromCharCode(65 + row)}${col + 1}';
-                bool isSold = widget.soldSeats.contains(seatId);
-                bool isSelected = selectedSeats.contains(seatId);
+              // Seat Legend
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 20),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    _buildLegendItem(Colors.grey, 'Available'),
+                    _buildLegendItem(Colors.blue, 'Selected'),
+                    _buildLegendItem(Colors.red, 'Sold'),
+                  ],
+                ),
+              ),
 
-                return SeatItemNick(
-                  seatIdNick: seatId,
-                  isSoldNick: isSold,
-                  isSelectedNick: isSelected,
-                  onTapNick: () {
-                    if (!isSold) {
-                      setState(() {
-                        if (isSelected) {
-                          selectedSeats.remove(seatId);
-                        } else {
-                          selectedSeats.add(seatId);
+              SizedBox(height: 20),
+
+              // Seat Grid
+              Expanded(
+                child: GridView.builder(
+                  padding: EdgeInsets.all(20),
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 8,
+                    crossAxisSpacing: 10,
+                    mainAxisSpacing: 10,
+                  ),
+                  itemCount: 48, // 6 rows x 8 columns
+                  itemBuilder: (context, index) {
+                    int row = index ~/ 8;
+                    int col = index % 8;
+                    String seatCode =
+                        '${String.fromCharCode(65 + row)}${col + 1}';
+
+                    // Mock sold seats (A1, A2, B5 for example)
+                    bool isSold = ['A1', 'A2', 'B5'].contains(seatCode);
+
+                    return SeatItem_nick(
+                      seatCode: seatCode,
+                      isSelected: provider.selectedSeats.contains(seatCode),
+                      isSold: isSold,
+                      onTap: () {
+                        if (!isSold) {
+                          provider.toggleSeat(seatCode);
                         }
-                      });
-                    }
+                      },
+                    );
                   },
-                );
-              },
-            ),
-          ),
+                ),
+              ),
 
-          Container(
-            padding: EdgeInsets.all(10),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [_colorBox(Colors.grey, 'Tersedia'), SizedBox(width: 15), _colorBox(Colors.blue, 'Dipilih'), SizedBox(width: 15), _colorBox(Colors.red, 'Terjual')],
-            ),
-          ),
-
-          // Selected seats
-          if (selectedSeats.isNotEmpty)
-            Container(
-              padding: EdgeInsets.all(16),
-              child: Text('Kursi dipilih: ${selectedSeats.join(', ')}', style: TextStyle(fontWeight: FontWeight.bold)),
-            ),
-
-          // Tombol Konfirmasi
-          Container(
-            padding: EdgeInsets.all(16),
-            child: ElevatedButton(
-              onPressed: selectedSeats.isEmpty
-                  ? null
-                  : () {
-                      // Simpan ke provider
-                      final provider = Provider.of<BookingProvider>(context, listen: false);
-                      provider.selectedSeats = selectedSeats;
-
-                      // Kembali dengan data
-                      Navigator.pop(context, selectedSeats);
-                    },
-              style: ElevatedButton.styleFrom(minimumSize: Size(double.infinity, 50), backgroundColor: Colors.blue),
-              child: Text('KONFIRMASI (${selectedSeats.length} kursi)', style: TextStyle(color: Colors.white)),
-            ),
-          ),
-        ],
+              // Total Price
+              Container(
+                padding: EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  color: Colors.grey[200],
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(20),
+                    topRight: Radius.circular(20),
+                  ),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text('Total Price', style: TextStyle(fontSize: 16)),
+                        Text(
+                          'Rp ${provider.calculateTotal(widget.movie.base_price, widget.movie.title)}',
+                          style: TextStyle(
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.blue,
+                          ),
+                        ),
+                        SizedBox(height: 4),
+                        Text(
+                          '${provider.selectedSeats.length} seat(s) selected',
+                          style: TextStyle(fontSize: 12, color: Colors.grey),
+                        ),
+                      ],
+                    ),
+                    ElevatedButton(
+                      onPressed: provider.selectedSeats.isEmpty
+                          ? null
+                          : () {
+                              provider.checkout(widget.movie);
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text('Booking Successful!'),
+                                  duration: Duration(seconds: 2),
+                                ),
+                              );
+                              Navigator.pop(context); // Kembali ke detail
+                            },
+                      child: Text('Checkout'),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          );
+        },
       ),
     );
   }
 
-  Widget _colorBox(Color color, String label) {
+  Widget _buildLegendItem(Color color, String label) {
     return Row(
       children: [
-        Container(width: 15, height: 15, color: color, margin: EdgeInsets.only(right: 5)),
+        Container(width: 20, height: 20, color: color),
+        SizedBox(width: 5),
         Text(label),
       ],
     );

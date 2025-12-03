@@ -12,12 +12,12 @@ class MovieModel_all {
 
   factory MovieModel_all.fromMap(Map<String, dynamic> map) {
     return MovieModel_all(
-      movie_id: map['movie_id'] ?? '',
+      movie_id: map['movie_id'] ?? map['id'] ?? '',
       title: map['title'] ?? '',
-      poster_url: map['poster_url'] ?? '',
-      base_price: map['base_price'] ?? 0,
-      rating: (map['rating'] ?? 0.0).toDouble(),
-      duration: map['duration'] ?? 0,
+      poster_url: map['poster_url'] ?? map['poster'] ?? 'https://via.placeholder.com/150',
+      base_price: map['base_price'] ?? 50000,
+      rating: (map['rating'] ?? 4.0).toDouble(),
+      duration: map['duration'] ?? 120,
     );
   }
 
@@ -31,15 +31,15 @@ class UserModel {
   String email;
   String username;
   int balance;
-  DateTime created_at;
+  Timestamp created_at;
 
   UserModel({required this.uid, required this.email, required this.username, required this.balance, required this.created_at});
 
   factory UserModel.fromMap(Map<String, dynamic> map) {
-    return UserModel(uid: map['uid'] ?? '', email: map['email'] ?? '', username: map['username'] ?? '', balance: map['balance'] ?? 0, created_at: (map['created_at'] as Timestamp).toDate());
+    return UserModel(uid: map['uid'] ?? '', email: map['email'] ?? '', username: map['username'] ?? '', balance: map['balance'] ?? 0, created_at: map['created_at'] ?? Timestamp.now());
   }
 
   Map<String, dynamic> toMap() {
-    return {'uid': uid, 'email': email, 'username': username, 'balance': balance, 'created_at': Timestamp.fromDate(created_at)};
+    return {'uid': uid, 'email': email, 'username': username, 'balance': balance, 'created_at': created_at};
   }
 }

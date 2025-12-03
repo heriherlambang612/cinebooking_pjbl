@@ -6,8 +6,7 @@ import 'screens/home_screen.dart';
 import 'screens/login_screen.dart';
 import 'screens/register_screen.dart';
 import 'screens/profile_screen.dart';
-import 'screens/movie_detail_screen.dart';
-import 'screens/seat_selection_screen.dart';
+import 'screens/booking_history_screen.dart';
 import 'providers/booking_provider.dart';
 
 void main() async {
@@ -25,10 +24,14 @@ class MyApp extends StatelessWidget {
         title: 'CineBooking',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(primarySwatch: Colors.blue),
-
-        home: LoginScreen(),
-
-        routes: {'/login': (context) => LoginScreen(), '/register': (context) => RegisterScreen(), '/home': (context) => HomeScreen(), '/profile': (context) => ProfileScreen()},
+        initialRoute: '/login',
+        routes: {
+          '/login': (context) => LoginScreen(),
+          '/register': (context) => RegisterScreen(),
+          '/home': (context) => HomeScreen(),
+          '/profile': (context) => ProfileScreen(),
+          '/history': (context) => BookingHistoryScreen(),
+        },
       ),
     );
   }

@@ -5,21 +5,24 @@ class FirebaseService {
   static final FirebaseAuth _auth = FirebaseAuth.instance;
   static final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  // Auth
+  // REGISTER USER
   static Future<User?> register(
     String email,
     String password,
     String username,
   ) async {
     try {
+      // Create User in Auth
       UserCredential credential = await _auth.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
 
-      // Create user document
-      await _firestore.collection('users').doc(credential.user!.uid).set({
-        'uid': credential.user!.uid,
+      final uid = credential.user!.uid;
+
+      // Save User Data in Firestore
+      await _firestore.collection('users').doc(uid).set({
+        'uid': uid,
         'email': email,
         'username': username,
         'balance': 0,
@@ -27,12 +30,15 @@ class FirebaseService {
       });
 
       return credential.user;
+    } on FirebaseAuthException catch (e) {
+      // If an auth error occurs, throw it to UI for snackbar
+      throw e.message ?? "Unknown FirebaseAuth error";
     } catch (e) {
-      print("Register error: $e");
-      return null;
+      throw "Failed to register user: $e";
     }
   }
 
+  // LOGIN USER
   static Future<User?> login(String email, String password) async {
     try {
       UserCredential credential = await _auth.signInWithEmailAndPassword(
@@ -40,32 +46,41 @@ class FirebaseService {
         password: password,
       );
       return credential.user;
+    } on FirebaseAuthException catch (e) {
+      throw e.message ?? "Login failed";
     } catch (e) {
-      print("Login error: $e");
-      return null;
+      throw "Error: $e";
     }
   }
 
+  // LOGOUT
   static Future<void> logout() async {
     await _auth.signOut();
   }
 
+  // CURRENT USER
   static User? get currentUser => _auth.currentUser;
 
-  // Movies
+  // GET MOVIES
   static Stream<QuerySnapshot> getMovies() {
     return _firestore.collection('movies').snapshots();
   }
 
-  // Bookings
+  // ADD BOOKING
   static Future<void> addBooking(Map<String, dynamic> bookingData) async {
-    await _firestore.collection('bookings').add(bookingData);
+    try {
+      await _firestore.collection('bookings').add(bookingData);
+    } catch (e) {
+      throw "Failed to save booking: $e";
+    }
   }
 
+  // GET USER BOOKINGS
   static Stream<QuerySnapshot> getUserBookings(String userId) {
     return _firestore
         .collection('bookings')
         .where('user_id', isEqualTo: userId)
+        .orderBy('booking_date', descending: true)
         .snapshots();
   }
 }

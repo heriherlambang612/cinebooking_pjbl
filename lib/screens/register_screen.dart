@@ -24,6 +24,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              // USERNAME
               TextFormField(
                 controller: _usernameController,
                 decoration: InputDecoration(
@@ -39,6 +40,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 },
               ),
               SizedBox(height: 20),
+
+              // EMAIL
               TextFormField(
                 controller: _emailController,
                 decoration: InputDecoration(
@@ -57,6 +60,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 },
               ),
               SizedBox(height: 20),
+
+              // PASSWORD
               TextFormField(
                 controller: _passwordController,
                 obscureText: true,
@@ -75,21 +80,25 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   return null;
                 },
               ),
+
               SizedBox(height: 30),
+
+              // BUTTON REGISTER
               _isLoading
                   ? CircularProgressIndicator()
                   : ElevatedButton(
                       onPressed: _register,
-                      child: Text('Register', style: TextStyle(fontSize: 18)),
                       style: ElevatedButton.styleFrom(
                         minimumSize: Size(double.infinity, 50),
                       ),
+                      child: Text('Register', style: TextStyle(fontSize: 18)),
                     ),
+
               SizedBox(height: 20),
+
+              // GO TO LOGIN
               TextButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
+                onPressed: () => Navigator.pop(context),
                 child: Text('Already have an account? Login'),
               ),
             ],
@@ -99,25 +108,28 @@ class _RegisterScreenState extends State<RegisterScreen> {
     );
   }
 
+  // REGISTER FUNCTION
   void _register() async {
     if (!_formKey.currentState!.validate()) return;
 
     setState(() => _isLoading = true);
 
-    final user = await FirebaseService.register(
-      _emailController.text.trim(),
-      _passwordController.text.trim(),
-      _usernameController.text.trim(),
-    );
+    try {
+      final user = await FirebaseService.register(
+        _emailController.text.trim(),
+        _passwordController.text.trim(),
+        _usernameController.text.trim(),
+      );
+
+      if (user != null) {
+        Navigator.pushReplacementNamed(context, '/home');
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('Registration failed: $e')));
+    }
 
     setState(() => _isLoading = false);
-
-    if (user != null) {
-      Navigator.pushReplacementNamed(context, '/home');
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Registration failed. Try again.')),
-      );
-    }
   }
 }

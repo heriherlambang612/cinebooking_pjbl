@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import '../models/movie_model_all.dart';
-import 'seat_selection_screen.dart'; // Import ini
 
 class MovieDetailScreen extends StatelessWidget {
   final MovieModel_all movie;
@@ -18,17 +17,40 @@ class MovieDetailScreen extends StatelessWidget {
           children: [
             Hero(
               tag: 'movie_${movie.movie_id}',
-              child: Image.network(movie.poster_url, height: 300, width: double.infinity, fit: BoxFit.cover),
+              child: Image.network(
+                movie.poster_url,
+                height: 300,
+                width: double.infinity,
+                fit: BoxFit.cover,
+                errorBuilder: (context, error, stackTrace) {
+                  return Container(
+                    height: 300,
+                    color: Colors.grey[300],
+                    child: Center(child: Icon(Icons.movie, size: 100, color: Colors.blue)),
+                  );
+                },
+              ),
             ),
             SizedBox(height: 16),
             Text(movie.title, style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
             SizedBox(height: 8),
-            Text('Rating: ${movie.rating} ⭐'),
-            Text('Duration: ${movie.duration} minutes'),
-            Text('Base Price: Rp ${movie.base_price}'),
+            Row(
+              children: [
+                Icon(Icons.star, color: Colors.amber, size: 20),
+                SizedBox(width: 5),
+                Text('${movie.rating}'),
+                SizedBox(width: 20),
+                Icon(Icons.timer, color: Colors.grey, size: 20),
+                SizedBox(width: 5),
+                Text('${movie.duration} min'),
+              ],
+            ),
+            SizedBox(height: 8),
+            Text('Base Price: Rp ${movie.base_price}', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500)),
             SizedBox(height: 16),
             Text('Description:', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-            Text('Lorem ipsum dolor sit amet, consectetur adipiscing elit.'),
+            SizedBox(height: 8),
+            Text('Enjoy this amazing movie with your friends and family. Book your seats now!', style: TextStyle(color: Colors.grey[700])),
           ],
         ),
       ),
@@ -48,6 +70,7 @@ class MovieDetailScreen extends StatelessWidget {
         icon: Icon(Icons.confirmation_number),
         label: Text('Book Ticket'),
       ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
 }
