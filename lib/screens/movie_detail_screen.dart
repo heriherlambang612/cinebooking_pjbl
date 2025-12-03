@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../models/movie_model_all.dart';
+import '../screens/seat_selection_screen.dart';
 
 class MovieDetailScreen extends StatelessWidget {
   final MovieModel_all movie;
@@ -56,16 +57,7 @@ class MovieDetailScreen extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
-          // NAVIGASI FIXED - langsung panggil constructor
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => SeatMatrixNick(
-                soldSeats: ['A1', 'A2', 'B5'], // Data dummy dulu
-                movieTitle: movie.title,
-              ),
-            ),
-          );
+          Navigator.push(context, MaterialPageRoute(builder: (context) => SeatSelectionNick(movie: movie)));
         },
         icon: Icon(Icons.confirmation_number),
         label: Text('Book Ticket'),

@@ -4,16 +4,16 @@ import '../models/movie_model_all.dart';
 import '../providers/booking_provider.dart';
 import '../widgets/seat_item_nick.dart';
 
-class SeatSelectionScreen extends StatefulWidget {
+class SeatSelectionNick extends StatefulWidget {
   final MovieModel_all movie;
 
-  SeatSelectionScreen({required this.movie});
+  SeatSelectionNick({required this.movie});
 
   @override
-  _SeatSelectionScreenState createState() => _SeatSelectionScreenState();
+  _SeatSelectionNick createState() => _SeatSelectionNick();
 }
 
-class _SeatSelectionScreenState extends State<SeatSelectionScreen> {
+class _SeatSelectionNick extends State<SeatSelectionNick> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,10 +30,7 @@ class _SeatSelectionScreenState extends State<SeatSelectionScreen> {
                   border: Border.all(color: Colors.grey),
                   borderRadius: BorderRadius.circular(5),
                 ),
-                child: Text(
-                  'SCREEN',
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                ),
+                child: Text('SCREEN', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
               ),
 
               // Seat Legend
@@ -41,11 +38,7 @@ class _SeatSelectionScreenState extends State<SeatSelectionScreen> {
                 padding: EdgeInsets.symmetric(horizontal: 20),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    _buildLegendItem(Colors.grey, 'Available'),
-                    _buildLegendItem(Colors.blue, 'Selected'),
-                    _buildLegendItem(Colors.red, 'Sold'),
-                  ],
+                  children: [_buildLegendItem(Colors.grey, 'Available'), _buildLegendItem(Colors.blue, 'Selected'), _buildLegendItem(Colors.red, 'Sold')],
                 ),
               ),
 
@@ -55,22 +48,16 @@ class _SeatSelectionScreenState extends State<SeatSelectionScreen> {
               Expanded(
                 child: GridView.builder(
                   padding: EdgeInsets.all(20),
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 8,
-                    crossAxisSpacing: 10,
-                    mainAxisSpacing: 10,
-                  ),
-                  itemCount: 48, // 6 rows x 8 columns
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 8, crossAxisSpacing: 10, mainAxisSpacing: 10),
+                  itemCount: 48,
                   itemBuilder: (context, index) {
                     int row = index ~/ 8;
                     int col = index % 8;
-                    String seatCode =
-                        '${String.fromCharCode(65 + row)}${col + 1}';
+                    String seatCode = '${String.fromCharCode(65 + row)}${col + 1}';
 
-                    // Mock sold seats (A1, A2, B5 for example)
                     bool isSold = ['A1', 'A2', 'B5'].contains(seatCode);
 
-                    return SeatItem_nick(
+                    return SeatItemNick(
                       seatCode: seatCode,
                       isSelected: provider.selectedSeats.contains(seatCode),
                       isSold: isSold,
@@ -89,10 +76,7 @@ class _SeatSelectionScreenState extends State<SeatSelectionScreen> {
                 padding: EdgeInsets.all(16),
                 decoration: BoxDecoration(
                   color: Colors.grey[200],
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(20),
-                    topRight: Radius.circular(20),
-                  ),
+                  borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20)),
                 ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -103,17 +87,10 @@ class _SeatSelectionScreenState extends State<SeatSelectionScreen> {
                         Text('Total Price', style: TextStyle(fontSize: 16)),
                         Text(
                           'Rp ${provider.calculateTotal(widget.movie.base_price, widget.movie.title)}',
-                          style: TextStyle(
-                            fontSize: 24,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.blue,
-                          ),
+                          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.blue),
                         ),
                         SizedBox(height: 4),
-                        Text(
-                          '${provider.selectedSeats.length} seat(s) selected',
-                          style: TextStyle(fontSize: 12, color: Colors.grey),
-                        ),
+                        Text('${provider.selectedSeats.length} seat(s) selected', style: TextStyle(fontSize: 12, color: Colors.grey)),
                       ],
                     ),
                     ElevatedButton(
@@ -121,12 +98,7 @@ class _SeatSelectionScreenState extends State<SeatSelectionScreen> {
                           ? null
                           : () {
                               provider.checkout(widget.movie);
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content: Text('Booking Successful!'),
-                                  duration: Duration(seconds: 2),
-                                ),
-                              );
+                              ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Booking Successful!'), duration: Duration(seconds: 2)));
                               Navigator.pop(context); // Kembali ke detail
                             },
                       child: Text('Checkout'),

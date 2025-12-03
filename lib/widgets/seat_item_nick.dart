@@ -1,17 +1,12 @@
 import 'package:flutter/material.dart';
 
-class SeatItem_nick extends StatelessWidget {
+class SeatItemNick extends StatelessWidget {
   final String seatCode;
   final bool isSelected;
   final bool isSold;
   final VoidCallback onTap;
 
-  SeatItem_nick({
-    required this.seatCode,
-    required this.isSelected,
-    required this.isSold,
-    required this.onTap,
-  });
+  SeatItemNick({required this.seatCode, required this.isSelected, required this.isSold, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -33,11 +28,7 @@ class SeatItem_nick extends StatelessWidget {
         child: Center(
           child: Text(
             seatCode,
-            style: TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
-              fontSize: 12,
-            ),
+            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 12),
           ),
         ),
       ),
