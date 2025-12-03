@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../models/movie_model_all.dart';
 import '../services/firebase_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class BookingProvider with ChangeNotifier {
   List<String> selectedSeats = [];
@@ -28,16 +29,15 @@ class BookingProvider with ChangeNotifier {
   }
 
   int _calculateSeatDiscount(int basePrice, String seatCode) {
-
     String numberStr = seatCode.replaceAll(RegExp(r'[^0-9]'), '');
     if (numberStr.isEmpty) return 0;
-    
+
     int seatNumber = int.parse(numberStr);
-    
+
     if (seatNumber % 2 == 0) {
       return (basePrice * 0.1).round();
     }
-    
+
     return 0;
   }
 
@@ -65,13 +65,7 @@ class BookingProvider with ChangeNotifier {
 
     int totalPrice = calculateTotal(movie.base_price, movie.title);
 
-    Map<String, dynamic> bookingData = {
-      'user_id': user.uid,
-      'movie_title': movie.title,
-      'seats': selectedSeats,
-      'total_price': totalPrice,
-      'booking_date': DateTime.now(),
-    };
+    Map<String, dynamic> bookingData = {'user_id': user.uid, 'movie_title': movie.title, 'seats': selectedSeats, 'total_price': totalPrice, 'booking_date': DateTime.now()};
 
     await FirebaseService.addBooking(bookingData);
     clearSeats();

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import '../services/firebase_service.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class BookingHistoryScreen extends StatelessWidget {
   @override
@@ -42,23 +43,11 @@ class BookingHistoryScreen extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(
-                            booking['movie_title'],
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
+                          Text(booking['movie_title'], style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
                           Container(
                             padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                            decoration: BoxDecoration(
-                              color: Colors.green,
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                            child: Text(
-                              'Rp ${booking['total_price']}',
-                              style: TextStyle(color: Colors.white),
-                            ),
+                            decoration: BoxDecoration(color: Colors.green, borderRadius: BorderRadius.circular(20)),
+                            child: Text('Rp ${booking['total_price']}', style: TextStyle(color: Colors.white)),
                           ),
                         ],
                       ),
@@ -72,16 +61,9 @@ class BookingHistoryScreen extends StatelessWidget {
                           children: [
                             Text('Booking QR Code'),
                             SizedBox(height: 10),
-                            QrImageView(
-                              data: bookingId,
-                              version: QrVersions.auto,
-                              size: 150,
-                            ),
+                            QrImageView(data: bookingId, version: QrVersions.auto, size: 150),
                             SizedBox(height: 10),
-                            Text(
-                              'ID: $bookingId',
-                              style: TextStyle(fontSize: 12, color: Colors.grey),
-                            ),
+                            Text('ID: $bookingId', style: TextStyle(fontSize: 12, color: Colors.grey)),
                           ],
                         ),
                       ),
