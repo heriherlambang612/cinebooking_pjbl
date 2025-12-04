@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../models/movie_model_all.dart';
+import '../models/movie_model.dart';
 import '../providers/booking_provider.dart';
 import '../widgets/seat_item_nick.dart';
 
 class SeatSelectionScreen extends StatefulWidget {
-  final MovieModel_all movie;
+  final MovieModel_Heri movie;
 
   SeatSelectionScreen({required this.movie});
 
@@ -22,7 +22,6 @@ class _SeatSelectionScreenState extends State<SeatSelectionScreen> {
         builder: (context, provider, child) {
           return Column(
             children: [
-              // Screen
               Container(
                 margin: EdgeInsets.all(20),
                 padding: EdgeInsets.all(10),
@@ -36,7 +35,6 @@ class _SeatSelectionScreenState extends State<SeatSelectionScreen> {
                 ),
               ),
 
-              // Seat Legend
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 20),
                 child: Row(
@@ -51,7 +49,6 @@ class _SeatSelectionScreenState extends State<SeatSelectionScreen> {
 
               SizedBox(height: 20),
 
-              // Seat Grid
               Expanded(
                 child: GridView.builder(
                   padding: EdgeInsets.all(20),
@@ -60,14 +57,13 @@ class _SeatSelectionScreenState extends State<SeatSelectionScreen> {
                     crossAxisSpacing: 10,
                     mainAxisSpacing: 10,
                   ),
-                  itemCount: 48, // 6 rows x 8 columns
+                  itemCount: 48,
                   itemBuilder: (context, index) {
                     int row = index ~/ 8;
                     int col = index % 8;
                     String seatCode =
                         '${String.fromCharCode(65 + row)}${col + 1}';
 
-                    // Mock sold seats (A1, A2, B5 for example)
                     bool isSold = ['A1', 'A2', 'B5'].contains(seatCode);
 
                     return SeatItem_nick(
@@ -84,7 +80,6 @@ class _SeatSelectionScreenState extends State<SeatSelectionScreen> {
                 ),
               ),
 
-              // Total Price
               Container(
                 padding: EdgeInsets.all(16),
                 decoration: BoxDecoration(
@@ -127,7 +122,7 @@ class _SeatSelectionScreenState extends State<SeatSelectionScreen> {
                                   duration: Duration(seconds: 2),
                                 ),
                               );
-                              Navigator.pop(context); // Kembali ke detail
+                              Navigator.pop(context);
                             },
                       child: Text('Checkout'),
                     ),

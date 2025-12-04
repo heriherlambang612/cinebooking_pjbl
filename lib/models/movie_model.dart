@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class MovieModel_all {
+class MovieModel_Heri {
   String movie_id;
   String title;
   String poster_url;
@@ -8,7 +8,7 @@ class MovieModel_all {
   double rating;
   int duration;
 
-  MovieModel_all({
+  MovieModel_Heri({
     required this.movie_id,
     required this.title,
     required this.poster_url,
@@ -17,8 +17,8 @@ class MovieModel_all {
     required this.duration,
   });
 
-  factory MovieModel_all.fromMap(Map<String, dynamic> map) {
-    return MovieModel_all(
+  factory MovieModel_Heri.fromMap(Map<String, dynamic> map) {
+    return MovieModel_Heri(
       movie_id: map['movie_id'] ?? map['id'] ?? '',
       title: map['title'] ?? '',
       poster_url:
@@ -43,14 +43,14 @@ class MovieModel_all {
   }
 }
 
-class UserModel {
+class UserModel_Heri {
   String uid;
   String email;
   String username;
   int balance;
   Timestamp created_at;
 
-  UserModel({
+  UserModel_Heri({
     required this.uid,
     required this.email,
     required this.username,
@@ -58,8 +58,8 @@ class UserModel {
     required this.created_at,
   });
 
-  factory UserModel.fromMap(Map<String, dynamic> map) {
-    return UserModel(
+  factory UserModel_Heri.fromMap(Map<String, dynamic> map) {
+    return UserModel_Heri(
       uid: map['uid'] ?? '',
       email: map['email'] ?? '',
       username: map['username'] ?? '',

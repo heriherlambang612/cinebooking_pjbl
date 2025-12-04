@@ -25,11 +25,11 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(primarySwatch: Colors.blue),
         initialRoute: '/login',
         routes: {
-          '/login': (context) => LoginScreen(),
-          '/register': (context) => RegisterScreen(),
-          '/home': (context) => HomeScreen(),
-          '/profile': (context) => ProfileScreen(),
-          '/history': (context) => BookingHistoryScreen(),
+          '/login': (context) => LoginScreen_Leni(),
+          '/register': (context) => RegisterScreen_Leni(),
+          '/home': (context) => HomeScreen_Husnul(),
+          '/profile': (context) => ProfileScreen_Leni(),
+          '/history': (context) => BookingHistoryScreen_Leni(),
         },
       ),
     );
