@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import '../services/firebase_service.dart';
 
-class LoginScreen extends StatefulWidget {
+class LoginScreen_Leni extends StatefulWidget {
   @override
   _LoginScreenState createState() => _LoginScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _LoginScreenState extends State<LoginScreen_Leni> {
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
@@ -88,7 +88,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
     setState(() => _isLoading = true);
 
-    final user = await FirebaseService.login(
+    final user = await FirebaseService_Heri.login(
       _emailController.text.trim(),
       _passwordController.text.trim(),
     );

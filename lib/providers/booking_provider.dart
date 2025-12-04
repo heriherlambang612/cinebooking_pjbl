@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import '../models/movie_model_all.dart';
+import '../models/movie_model.dart';
 import '../services/firebase_service.dart';
-// Hapus: import 'package:firebase_auth/firebase_auth.dart';
 
 class BookingProvider with ChangeNotifier {
   List<String> selectedSeats = [];
@@ -21,31 +20,26 @@ class BookingProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  // TRAP 1: Long Title Tax
   int _calculateTax(int basePrice, String title) {
     if (title.length > 10) {
-      return 2500; // Additional tax
+      return 2500;
     }
     return 0;
   }
 
-  // TRAP 2: Odd/Even Discount
   int _calculateSeatDiscount(int basePrice, String seatCode) {
-    // Extract number from seat code (e.g., "A2" -> 2)
     String numberStr = seatCode.replaceAll(RegExp(r'[^0-9]'), '');
     if (numberStr.isEmpty) return 0;
 
     int seatNumber = int.parse(numberStr);
 
-    // Even seat number = 10% discount
     if (seatNumber % 2 == 0) {
-      return (basePrice * 0.1).round(); // 10% discount
+      return (basePrice * 0.1).round();
     }
 
-    return 0; // Odd seat = normal price
+    return 0;
   }
 
-  // Main calculation function
   int calculateTotal(int basePrice, String title) {
     if (selectedSeats.isEmpty) return 0;
 
@@ -58,15 +52,14 @@ class BookingProvider with ChangeNotifier {
       total += seatPrice;
     }
 
-    total += (tax * selectedSeats.length); // Add tax per seat
+    total += (tax * selectedSeats.length);
     return total;
   }
 
-  // Checkout function
-  Future<void> checkout(MovieModel_all movie) async {
+  Future<void> checkout(MovieModel_Heri movie) async {
     if (selectedSeats.isEmpty) return;
 
-    final user = FirebaseService.currentUser;
+    final user = FirebaseService_Heri.currentUser;
     if (user == null) return;
 
     int totalPrice = calculateTotal(movie.base_price, movie.title);
@@ -80,7 +73,7 @@ class BookingProvider with ChangeNotifier {
     };
 
     try {
-      await FirebaseService.addBooking(bookingData);
+      await FirebaseService_Heri.addBooking(bookingData);
       clearSeats();
       print('Checkout successful!');
     } catch (e) {

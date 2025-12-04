@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
-// Hapus: import 'package:firebase_auth/firebase_auth.dart';
 import '../services/firebase_service.dart';
 import 'booking_history_screen.dart';
 
-class ProfileScreen extends StatelessWidget {
+class ProfileScreen_Leni extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final user = FirebaseService.currentUser;
+    final user = FirebaseService_Heri.currentUser;
 
     return Scaffold(
       appBar: AppBar(title: Text('Profile')),
@@ -42,7 +41,7 @@ class ProfileScreen extends StatelessWidget {
                     ListTile(
                       leading: Icon(Icons.account_balance_wallet),
                       title: Text('Balance'),
-                      subtitle: Text('Rp 0'), // Default balance
+                      subtitle: Text('Rp 0'),
                     ),
                   ],
                 ),
@@ -54,7 +53,7 @@ class ProfileScreen extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => BookingHistoryScreen(),
+                    builder: (context) => BookingHistoryScreen_Leni(),
                   ),
                 );
               },
@@ -67,7 +66,7 @@ class ProfileScreen extends StatelessWidget {
             SizedBox(height: 20),
             ElevatedButton.icon(
               onPressed: () async {
-                await FirebaseService.logout();
+                await FirebaseService_Heri.logout();
                 Navigator.pushReplacementNamed(context, '/login');
               },
               icon: Icon(Icons.logout),

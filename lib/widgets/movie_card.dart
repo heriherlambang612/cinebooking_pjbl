@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import '../models/movie_model_all.dart';
+import '../models/movie_model.dart';
 
-class MovieCard extends StatelessWidget {
-  final MovieModel_all movie;
+class MovieCard_Husnul extends StatelessWidget {
+  final MovieModel_Heri movie;
 
-  MovieCard({required this.movie});
+  MovieCard_Husnul({required this.movie});
 
   @override
   Widget build(BuildContext context) {
