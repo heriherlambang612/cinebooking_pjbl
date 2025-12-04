@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import '../models/movie_model_all.dart';
-import '../screens/seat_selection_screen.dart';
+import '../models/movie_model.dart';
+import 'seat_selection_screen.dart';
 
-class MovieDetailScreen extends StatelessWidget {
-  final MovieModel_all movie;
+class MovieDetailScreen_Husnul extends StatelessWidget {
+  final MovieModel_Heri movie;
 
-  MovieDetailScreen({required this.movie});
+  MovieDetailScreen_Husnul({required this.movie});
 
   @override
   Widget build(BuildContext context) {

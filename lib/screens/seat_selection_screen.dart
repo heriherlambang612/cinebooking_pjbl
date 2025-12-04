@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../models/movie_model_all.dart';
+import '../models/movie_model.dart';
 import '../providers/booking_provider.dart';
 import '../widgets/seat_item_nick.dart';
 
 class SeatSelectionNick extends StatefulWidget {
-  final MovieModel_all movie;
+  final MovieModel_Heri movie;
 
   SeatSelectionNick({required this.movie});
 
@@ -22,7 +22,6 @@ class _SeatSelectionNick extends State<SeatSelectionNick> {
         builder: (context, provider, child) {
           return Column(
             children: [
-              // Screen
               Container(
                 margin: EdgeInsets.all(20),
                 padding: EdgeInsets.all(10),
@@ -33,7 +32,6 @@ class _SeatSelectionNick extends State<SeatSelectionNick> {
                 child: Text('SCREEN', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
               ),
 
-              // Seat Legend
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 20),
                 child: Row(
@@ -44,12 +42,11 @@ class _SeatSelectionNick extends State<SeatSelectionNick> {
 
               SizedBox(height: 20),
 
-              // Seat Grid
               Expanded(
                 child: GridView.builder(
                   padding: EdgeInsets.all(20),
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 8, crossAxisSpacing: 10, mainAxisSpacing: 10),
-                  itemCount: 48,
+                  itemCount: 48, // 6 rows x 8 columns
                   itemBuilder: (context, index) {
                     int row = index ~/ 8;
                     int col = index % 8;
@@ -71,7 +68,6 @@ class _SeatSelectionNick extends State<SeatSelectionNick> {
                 ),
               ),
 
-              // Total Price
               Container(
                 padding: EdgeInsets.all(16),
                 decoration: BoxDecoration(

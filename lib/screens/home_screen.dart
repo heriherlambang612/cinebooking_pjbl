@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import '../models/movie_model_all.dart';
+import '../models/movie_model.dart';
 import '../services/firebase_service.dart';
 import '../widgets/movie_card.dart';
 import 'movie_detail_screen.dart';
-import 'seat_selection_screen.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen_Husnul extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,7 +21,7 @@ class HomeScreen extends StatelessWidget {
         ],
       ),
       body: StreamBuilder<QuerySnapshot>(
-        stream: FirebaseService.getMovies(),
+        stream: FirebaseService_Heri.getMovies(),
         builder: (context, snapshot) {
           if (snapshot.hasError) {
             return Center(child: Text('Error loading movies'));
@@ -34,7 +33,7 @@ class HomeScreen extends StatelessWidget {
 
           final movies = snapshot.data!.docs.map((doc) {
             final data = doc.data() as Map<String, dynamic>;
-            return MovieModel_all.fromMap(data);
+            return MovieModel_Heri.fromMap(data);
           }).toList();
 
           return GridView.builder(
@@ -44,9 +43,9 @@ class HomeScreen extends StatelessWidget {
             itemBuilder: (context, index) {
               return GestureDetector(
                 onTap: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => MovieDetailScreen(movie: movies[index])));
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => MovieDetailScreen_Husnul(movie: movies[index])));
                 },
-                child: MovieCard(movie: movies[index]),
+                child: MovieCard_Husnul(movie: movies[index]),
               );
             },
           );

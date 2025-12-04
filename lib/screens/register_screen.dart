@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import '../services/firebase_service.dart';
 
-class RegisterScreen extends StatefulWidget {
+class RegisterScreen_Leni extends StatefulWidget {
   @override
   _RegisterScreenState createState() => _RegisterScreenState();
 }
 
-class _RegisterScreenState extends State<RegisterScreen> {
+class _RegisterScreenState extends State<RegisterScreen_Leni> {
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
@@ -24,7 +24,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              // USERNAME
               TextFormField(
                 controller: _usernameController,
                 decoration: InputDecoration(
@@ -41,7 +40,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
               ),
               SizedBox(height: 20),
 
-              // EMAIL
               TextFormField(
                 controller: _emailController,
                 decoration: InputDecoration(
@@ -61,7 +59,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
               ),
               SizedBox(height: 20),
 
-              // PASSWORD
               TextFormField(
                 controller: _passwordController,
                 obscureText: true,
@@ -83,7 +80,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
               SizedBox(height: 30),
 
-              // BUTTON REGISTER
               _isLoading
                   ? CircularProgressIndicator()
                   : ElevatedButton(
@@ -96,7 +92,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
               SizedBox(height: 20),
 
-              // GO TO LOGIN
               TextButton(
                 onPressed: () => Navigator.pop(context),
                 child: Text('Already have an account? Login'),
@@ -108,14 +103,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
     );
   }
 
-  // REGISTER FUNCTION
   void _register() async {
     if (!_formKey.currentState!.validate()) return;
 
     setState(() => _isLoading = true);
 
     try {
-      final user = await FirebaseService.register(
+      final user = await FirebaseService_Heri.register(
         _emailController.text.trim(),
         _passwordController.text.trim(),
         _usernameController.text.trim(),

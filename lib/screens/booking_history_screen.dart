@@ -3,15 +3,15 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import '../services/firebase_service.dart';
 
-class BookingHistoryScreen extends StatelessWidget {
+class BookingHistoryScreen_Leni extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final user = FirebaseService.currentUser;
+    final user = FirebaseService_Heri.currentUser;
 
     return Scaffold(
       appBar: AppBar(title: Text('Booking History')),
       body: StreamBuilder<QuerySnapshot>(
-        stream: FirebaseService.getUserBookings(user!.uid),
+        stream: FirebaseService_Heri.getUserBookings(user!.uid),
         builder: (context, snapshot) {
           if (snapshot.hasError) {
             return Center(child: Text('Error loading bookings'));
@@ -34,7 +34,6 @@ class BookingHistoryScreen extends StatelessWidget {
               final booking = bookingDoc.data()! as Map<String, dynamic>;
               final bookingId = bookingDoc.id;
 
-              // Handle jika booking_date adalah Timestamp
               dynamic bookingDate = booking['booking_date'];
               String dateString = '';
 

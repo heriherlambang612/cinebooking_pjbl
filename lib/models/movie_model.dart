@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class MovieModel_all {
+class MovieModel_Heri {
   String movie_id;
   String title;
   String poster_url;
@@ -8,10 +8,10 @@ class MovieModel_all {
   double rating;
   int duration;
 
-  MovieModel_all({required this.movie_id, required this.title, required this.poster_url, required this.base_price, required this.rating, required this.duration});
+  MovieModel_Heri({required this.movie_id, required this.title, required this.poster_url, required this.base_price, required this.rating, required this.duration});
 
-  factory MovieModel_all.fromMap(Map<String, dynamic> map) {
-    return MovieModel_all(
+  factory MovieModel_Heri.fromMap(Map<String, dynamic> map) {
+    return MovieModel_Heri(
       movie_id: map['movie_id'] ?? map['id'] ?? '',
       title: map['title'] ?? '',
       poster_url: map['poster_url'] ?? map['poster'] ?? 'https://via.placeholder.com/150',
@@ -26,17 +26,17 @@ class MovieModel_all {
   }
 }
 
-class UserModel {
+class UserModel_Heri {
   String uid;
   String email;
   String username;
   int balance;
   Timestamp created_at;
 
-  UserModel({required this.uid, required this.email, required this.username, required this.balance, required this.created_at});
+  UserModel_Heri({required this.uid, required this.email, required this.username, required this.balance, required this.created_at});
 
-  factory UserModel.fromMap(Map<String, dynamic> map) {
-    return UserModel(uid: map['uid'] ?? '', email: map['email'] ?? '', username: map['username'] ?? '', balance: map['balance'] ?? 0, created_at: map['created_at'] ?? Timestamp.now());
+  factory UserModel_Heri.fromMap(Map<String, dynamic> map) {
+    return UserModel_Heri(uid: map['uid'] ?? '', email: map['email'] ?? '', username: map['username'] ?? '', balance: map['balance'] ?? 0, created_at: map['created_at'] ?? Timestamp.now());
   }
 
   Map<String, dynamic> toMap() {
