@@ -4,16 +4,16 @@ import '../models/movie_model.dart';
 import '../providers/booking_provider.dart';
 import '../widgets/seat_item_nick.dart';
 
-class SeatSelectionScreen extends StatefulWidget {
+class SeatSelectionScreen_Nick extends StatefulWidget {
   final MovieModel_Heri movie;
 
-  SeatSelectionScreen({required this.movie});
+  SeatSelectionScreen_Nick({required this.movie});
 
   @override
   _SeatSelectionScreenState createState() => _SeatSelectionScreenState();
 }
 
-class _SeatSelectionScreenState extends State<SeatSelectionScreen> {
+class _SeatSelectionScreenState extends State<SeatSelectionScreen_Nick> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

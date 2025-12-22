@@ -74,7 +74,7 @@ class MovieDetailScreen_Husnul extends StatelessWidget {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => SeatSelectionScreen(movie: movie),
+              builder: (context) => SeatSelectionScreen_Nick(movie: movie),
             ),
           );
         },
