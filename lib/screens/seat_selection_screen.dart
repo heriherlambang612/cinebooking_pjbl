@@ -4,16 +4,16 @@ import '../models/movie_model.dart';
 import '../providers/booking_provider.dart';
 import '../widgets/seat_item_nick.dart';
 
-class SeatSelectionNick extends StatefulWidget {
+class SeatSelectionScreen extends StatefulWidget {
   final MovieModel_Heri movie;
 
-  SeatSelectionNick({required this.movie});
+  SeatSelectionScreen({required this.movie});
 
   @override
-  _SeatSelectionNick createState() => _SeatSelectionNick();
+  _SeatSelectionScreenState createState() => _SeatSelectionScreenState();
 }
 
-class _SeatSelectionNick extends State<SeatSelectionNick> {
+class _SeatSelectionScreenState extends State<SeatSelectionScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -46,7 +46,7 @@ class _SeatSelectionNick extends State<SeatSelectionNick> {
                 child: GridView.builder(
                   padding: EdgeInsets.all(20),
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 8, crossAxisSpacing: 10, mainAxisSpacing: 10),
-                  itemCount: 48, // 6 rows x 8 columns
+                  itemCount: 48,
                   itemBuilder: (context, index) {
                     int row = index ~/ 8;
                     int col = index % 8;
@@ -95,7 +95,7 @@ class _SeatSelectionNick extends State<SeatSelectionNick> {
                           : () {
                               provider.checkout(widget.movie);
                               ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Booking Successful!'), duration: Duration(seconds: 2)));
-                              Navigator.pop(context); // Kembali ke detail
+                              Navigator.pop(context);
                             },
                       child: Text('Checkout'),
                     ),

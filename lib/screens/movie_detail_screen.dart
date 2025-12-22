@@ -57,10 +57,10 @@ class MovieDetailScreen_Husnul extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
-          Navigator.push(context, MaterialPageRoute(builder: (context) => SeatSelectionNick(movie: movie)));
+          Navigator.push(context, MaterialPageRoute(builder: (context) => SeatSelectionScreen(movie: movie)));
         },
-        icon: Icon(Icons.confirmation_number),
         label: Text('Book Ticket'),
+        icon: Icon(Icons.confirmation_number),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
